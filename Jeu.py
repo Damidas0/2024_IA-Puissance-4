@@ -1,14 +1,24 @@
 # grille 6*7
 # 'x','o',''
 
+import copy
 import tkinter as tk
 
 
 class Grille :
-  def __init__(self, hauteur = 6, largeur = 7):
+  def __init__(self, hauteur = 6, largeur = 7, grille = [], coup_prec=[0,0]):
     self.hauteur = hauteur
     self.largeur = largeur
-    self.grille = [['' for i in range(self.largeur)] for j in range(self.hauteur)]
+    self.coup_prec = coup_prec
+    if (grille!=[]):
+        self.grille = copy.deepcopy(grille)
+    else :
+        self.grille = [['' for i in range(self.largeur)] for j in range(self.hauteur)]
+    
+      
+  def __deepcopy__() :
+      return Grille(self.hauteur, self.largeur, self.grille, self.coup_prec) 
+      
 
   def vider_grille(self):
     self.grille = [['' for i in range(self.largeur)] for j in range(self.hauteur)]
@@ -21,6 +31,7 @@ class Grille :
       s += '\n'
     return s
   
+
   def case_est_vide(self, ligne, colone):
     return self.grille[ligne][colone] == ''
   
@@ -62,7 +73,7 @@ class Grille :
     
     joueur = self.grille[ligne][colonne]
 
-    # Vérification verticale |
+    # Vérification verticale 
     consecutive = 0
     for i in range(ligne, -1, -1):
         if self.grille[i][colonne] == joueur:
@@ -76,7 +87,7 @@ class Grille :
             break
     if consecutive >= 4:
         return True
-
+    
     # Vérification horizontale -
     consecutive = 0
     for j in range(self.largeur):
@@ -131,12 +142,15 @@ class Grille :
 
     return False
 
+    
   def get_liste_coups_possibles(self):
     coups = []
     for j in range(self.largeur):
       if self.case_est_vide(0, j):
         coups.append(j)
     return coups
+
+
 
 class Puissance4(tk.Tk):
     def __init__(self):
@@ -145,7 +159,7 @@ class Puissance4(tk.Tk):
         
         self.hauteur = 6
         self.largeur = 7
-        self.grille = Grille(self.hauteur, self.largeur)
+        self.grille = Grille( self.hauteur, self.largeur)
         
         self.multiplicateur = 40
         self.geometry(str(self.multiplicateur * self.largeur) + "x" + str(self.multiplicateur * self.hauteur))
