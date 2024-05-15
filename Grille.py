@@ -43,6 +43,7 @@ class Grille :
         
         if self.est_gagnant(colonne, i):
           print(joueur + ' a gagne')
+          print(self.get_positions_gagnantes_avec_ligne(colonne, i))
           return True
 
         if self.est_plein():
@@ -136,6 +137,43 @@ class Grille :
 
     return False
 
+
+  def get_positions_gagnantes_avec_ligne(self, colonne, ligne):
+    directions = [(0, 1), (1, 0), (1, 1), (1, -1)]  # Verticale, Horizontale, Diagonale descendante, Diagonale ascendante
+    token = self.grille[ligne][colonne]
+    if not token:
+        return []
+
+    positions_gagnantes = [[colonne, ligne]]
+
+    for direction in directions:
+        dx, dy = direction
+        count = 1
+        for i in range(1, 4):  # Vérification dans les deux sens à partir de la position donnée
+            nx, ny = colonne + dx * i, ligne + dy * i
+            if 0 <= nx < self.largeur and 0 <= ny < self.hauteur and self.grille[ny][nx] == token:
+                positions_gagnantes.append([nx, ny])
+                count += 1
+            else:
+                break
+        for i in range(1, 4):
+            nx, ny = colonne - dx * i, ligne - dy * i
+            if 0 <= nx < self.largeur and 0 <= ny < self.hauteur and self.grille[ny][nx] == token:
+                positions_gagnantes.append([nx, ny])
+                count += 1
+            else:
+                break
+        if count >= 4:
+            return positions_gagnantes
+        positions_gagnantes = [[colonne, ligne]]  # Réinitialisation pour chaque direction
+
+    return []
+
+  def get_positions_gagnantes(self, colonne):
+    ligne = self.hauteur - 1
+    while ligne >= 0 and not self.case_est_vide(ligne, colonne):
+      ligne -= 1
+    return self.get_positions_gagnantes_avec_ligne(colonne, ligne)
     
   def get_liste_coups_possibles(self):
     coups = []
