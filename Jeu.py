@@ -1,167 +1,10 @@
-# grille 6*7
-# 'x','o',''
-
-import copy
-import random
 import tkinter as tk
 
+from Grille import Grille
+from Joueur import JoueurHumain, JoueurAleatoire
 
-VERBOSE = False
+VERBOSE = True
 
-class Grille :
-  def __init__(self, hauteur = 6, largeur = 7, grille = [], coup_prec=[0,0]):
-    self.hauteur = hauteur
-    self.largeur = largeur
-    self.coup_prec = coup_prec
-    if (grille!=[]):
-        self.grille = copy.deepcopy(grille)
-    else :
-        self.grille = [['' for i in range(self.largeur)] for j in range(self.hauteur)]
-    
-      
-  def __deepcopy__() :
-      return Grille(self.hauteur, self.largeur, self.grille, self.coup_prec) 
-      
-
-  def vider_grille(self):
-    self.grille = [['' for i in range(self.largeur)] for j in range(self.hauteur)]
-    
-  def __str__(self):
-    s = ''
-    for i in range(self.hauteur):
-      for j in range(self.largeur):
-        s += self.grille[i][j] + ' '
-      s += '\n'
-    return s
-  
-  def case_est_vide(self, ligne, colonne):
-    return self.grille[ligne][colonne] == ''
-  
-  def get_case(self, ligne, colonne):
-    return self.grille[ligne][colonne]
-
-  def placer_jeton(self, joueur, colonne):
-    if colonne < 0 or colonne > self.largeur-1:
-      raise ValueError('colonne invalide')
-      return False
-    
-    for i in range(self.hauteur-1, -1, -1):
-      if self.case_est_vide(i, colonne):
-        self.grille[i][colonne] = joueur
-        
-        if self.est_gagnant(colonne, i):
-          print(joueur + ' a gagne')
-          return True
-
-        if self.est_plein():
-          print('Match nul')
-          return True
-        
-        return False
-    raise ValueError('colonne pleine')
-    return False
-
-  def est_plein(self):
-    for i in range(self.hauteur):
-      for j in range(self.largeur):
-        if self.case_est_vide(i, j):
-          return False
-    return True
-  
-  def est_gagnant(self, colonne, ligne):
-    if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
-      raise ValueError('colonne ou ligne invalide')
-      return False
-    
-    joueur = self.grille[ligne][colonne]
-
-    # Vérification verticale 
-    consecutive = 0
-    for i in range(ligne, -1, -1):
-        if self.grille[i][colonne] == joueur:
-            consecutive += 1
-        else:
-            break
-    for i in range(ligne + 1, self.hauteur):
-        if self.grille[i][colonne] == joueur:
-            consecutive += 1
-        else:
-            break
-    if consecutive >= 4:
-        return True
-    
-    # Vérification horizontale -
-    consecutive = 0
-    for j in range(self.largeur):
-        if self.grille[ligne][j] == joueur:
-            consecutive += 1
-        else:
-            consecutive = 0
-        if consecutive >= 4:
-            return True
-
-    # Vérification diagonale \
-    consecutive = 0
-    i, j = ligne, colonne
-    while i < self.hauteur and j < self.largeur:
-        if self.grille[i][j] == joueur:
-            consecutive += 1
-        else:
-            break
-        i += 1
-        j += 1
-    i, j = ligne - 1, colonne - 1
-    while i >= 0 and j >= 0:
-        if self.grille[i][j] == joueur:
-            consecutive += 1
-        else:
-            break
-        i -= 1
-        j -= 1
-    if consecutive >= 4:
-        return True
-
-    # Vérification diagonale /
-    consecutive = 0
-    i, j = ligne, colonne
-    while i < self.hauteur and j >= 0:
-        if self.grille[i][j] == joueur:
-            consecutive += 1
-        else:
-            break
-        i += 1
-        j -= 1
-    i, j = ligne - 1, colonne + 1
-    while i >= 0 and j < self.largeur:
-        if self.grille[i][j] == joueur:
-            consecutive += 1
-        else:
-            break
-        i -= 1
-        j += 1
-    if consecutive >= 4:
-        return True
-
-    return False
-
-    
-  def get_liste_coups_possibles(self):
-    coups = []
-    for j in range(self.largeur):
-      if self.case_est_vide(0, j):
-        coups.append(j)
-    return coups
-
-
-
-class JoueurHumain:
-  def jouer_coup(self, grille, joueur, colonne_joueur):
-    return colonne_joueur
-  
-class JoueurAleatoire:
-  def jouer_coup(self, grille, joueur, colonne_joueur):
-    coups_possible = grille.get_liste_coups_possibles()
-    return coups_possible[random.randint(0, len(coups_possible)-1)]
 
 class Puissance4(tk.Tk):
   def __init__(self):
@@ -179,6 +22,9 @@ class Puissance4(tk.Tk):
     self.attente_coup_humain = True
     self.colonne_coup_humain = -1
     
+    self.types_de_joueur = ["Humain", "Aleatoire", "MinMax", "AlphaBeta", "MCTS"]
+    
+    
     # Fenetre
     
     self.multiplicateur = 80
@@ -191,30 +37,40 @@ class Puissance4(tk.Tk):
     self.canvas.bind("<Button-1>", self.jouer_coup_humain)
     
     
-    # Menu
+    self.create_menu()
     
+
+    
+
+  def create_menu(self):
     self.menu = tk.Menu(self)
     self.config(menu=self.menu)
-
-    self.type_joueur_x_menu = tk.Menu(self.menu, tearoff=0)
-    self.type_joueur_x_menu.add_command(label="Joueur Humain", command=lambda: self.changer_type_joueur("Humain", 0))
-    self.type_joueur_x_menu.add_command(label="Joueur Aléatoire", command=lambda: self.changer_type_joueur("Aleatoire", 0))
-    self.menu.add_cascade(label="Joueur X : Humain", menu=self.type_joueur_x_menu)
     
+    self.type_joueur_x_menu = tk.Menu(self.menu, tearoff=0)
     self.type_joueur_o_menu = tk.Menu(self.menu, tearoff=0)
-    self.type_joueur_o_menu.add_command(label="Joueur Humain", command=lambda: self.changer_type_joueur("Humain", 1))
-    self.type_joueur_o_menu.add_command(label="Joueur Aléatoire", command=lambda: self.changer_type_joueur("Aleatoire", 1))
+    
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[0], command=lambda: self.changer_type_joueur(0, 0))
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[1], command=lambda: self.changer_type_joueur(1, 0))
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 0))
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[3], command=lambda: self.changer_type_joueur(3, 0))
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(4, 0))
+    self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[0], command=lambda: self.changer_type_joueur(0, 1))
+    self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[1], command=lambda: self.changer_type_joueur(1, 1))
+    self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 1))
+    self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[3], command=lambda: self.changer_type_joueur(3, 1))
+    self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(4, 1))
+          
+    
+    self.menu.add_cascade(label="Joueur X : Humain", menu=self.type_joueur_x_menu)
     self.menu.add_cascade(label="Joueur O : Humain", menu=self.type_joueur_o_menu)
+    
     
     self.menu.add_command(label="Relancer Partie", command=self.relancer_partie)
 
     self.menu.add_command(label="Tour du joueur : " + self.joueur_symbole[self.joueur_courant])
 
-    self.type_joueur_o = "Humain"  # Par défaut, le joueur est un joueur humain
-    self.type_joueur_x = "Humain"
-    
-    
-
+    self.type_joueur_o = self.types_de_joueur[0]  # Par défaut, le joueur est un joueur humain
+    self.type_joueur_x = self.types_de_joueur[0]
     
 
 
@@ -234,19 +90,22 @@ class Puissance4(tk.Tk):
       self.attente_coup_humain = False
         
   def changer_type_joueur(self, type_joueur, joueur):
+    if VERBOSE:
+      print("Changement de joueur :",type_joueur, joueur)
+    
     if joueur == 0:
       self.type_joueur_o = type_joueur
-      self.menu.entryconfig(joueur+1, label="Joueur X : " + type_joueur)
+      self.menu.entryconfig(joueur+1, label="Joueur X : " + self.types_de_joueur[type_joueur])
     else:
       self.type_joueur_x = type_joueur
-      self.menu.entryconfig(joueur+1, label="Joueur O : " + type_joueur)
+      self.menu.entryconfig(joueur+1, label="Joueur O : " + self.types_de_joueur[type_joueur])
       
-    switcher = {
-      "Humain": JoueurHumain(),
-      "Aleatoire": JoueurAleatoire()
-    }
-    
-    self.joueurs[joueur] = switcher.get(type_joueur)
+    if (type_joueur == 0) : self.joueurs[joueur] = JoueurHumain()
+    elif (type_joueur == 1) : self.joueurs[joueur] = JoueurAleatoire()
+    elif (type_joueur == 2) : self.joueurs[joueur] = JoueurAleatoire()
+    elif (type_joueur == 3) : self.joueurs[joueur] = JoueurAleatoire()
+    elif (type_joueur == 4) : self.joueurs[joueur] = JoueurAleatoire()
+    else : self.joueurs[joueur] = JoueurAleatoire()
 
   def relancer_partie(self):
     if VERBOSE:
