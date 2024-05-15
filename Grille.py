@@ -140,7 +140,6 @@ class Grille :
 
     return False
 
-
   def get_positions_gagnantes_avec_ligne(self, ligne, colonne):
     if colonne < 0 or colonne > self.largeur - 1 or ligne < 0 or ligne > self.hauteur - 1:
         raise ValueError('colonne ou ligne invalide')
@@ -231,9 +230,6 @@ class Grille :
     # Si aucune séquence gagnante n'est trouvée, retourne une liste vide
     return []
 
-
-  
-  
   def get_positions_gagnantes(self, colonne):
     ligne = 0
     
