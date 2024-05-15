@@ -121,8 +121,6 @@ class Puissance4(tk.Tk):
     self.draw_grid()
     
     self.jouer_coup()
-    
-    
 
 
   def changer_joueur(self):
@@ -150,7 +148,8 @@ class Puissance4(tk.Tk):
       print(e)
     
     self.changer_joueur()
-    self.jouer_coup()
+    
+    self.after(100, self.jouer_coup)
     
 
 if __name__ == "__main__":
