@@ -9,7 +9,7 @@ PROFONDEUR_MAX = 4
 NB_COLONNES = 7
 NB_LIGNES = 6 
 
-class Minmax : 
+class MinMax : 
     def __init__(self, char:str, profondeux_max:int = 5) -> None:
         self.char = char
         self.advChar = 'o' if self.char == 'x' else 'x'
