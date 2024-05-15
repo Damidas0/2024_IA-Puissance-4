@@ -16,7 +16,7 @@ class Minmax :
         self.profondeur_max = profondeux_max 
 
     def jouer_coup(self, grille : Grille, char : str) -> int : 
-        coup = minmax(copy.deepcopy(grille), self.profondeur_max, True)
+        coup = self.minmax(copy.deepcopy(grille), self.profondeur_max, True)
         return coup
 
     def minmax(self, grille_virtuelle : Grille, profondeur_max:int, minimizer : bool) : 
@@ -41,7 +41,7 @@ class Minmax :
                 
             else :
                 grille_tampon.placer_jeton(self.advChar, coup)
-            liste_score.append(minmax(grille_virtuelle, profondeur_max-1, not(minimizer))) 
+            liste_score.append(self.minmax(grille_virtuelle, profondeur_max-1, not(minimizer))) 
             
         if ((minimizer)):
             #print (liste)
