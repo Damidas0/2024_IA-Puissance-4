@@ -144,7 +144,8 @@ class Grille :
     return False
 
 
-  def get_positions_gagnantes_avec_ligne(self, ligne, colonne):    
+  def get_positions_gagnantes_avec_ligne(self, ligne, colonne):
+    print(ligne, colonne)
     if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
       raise ValueError('colonne ou ligne invalide')
       return []
@@ -183,6 +184,8 @@ class Grille :
     ligne = self.hauteur - 1
     while ligne >= 0 and self.case_est_vide(ligne, colonne):
       ligne -= 1
+      
+    print("calc : ",ligne, colonne)
     return self.get_positions_gagnantes_avec_ligne(ligne, colonne)
     
   def get_liste_coups_possibles(self):

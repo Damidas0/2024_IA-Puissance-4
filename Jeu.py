@@ -3,6 +3,7 @@ import tkinter as tk
 from Grille import Grille
 from Joueur import JoueurHumain, JoueurAleatoire
 from Minmax import MinMax
+from AlphaBeta import AlphaBeta
 
 VERBOSE = False
 
@@ -119,7 +120,7 @@ class Puissance4(tk.Tk):
     if (type_joueur == 0) : self.joueurs[joueur] = JoueurHumain()
     elif (type_joueur == 1) : self.joueurs[joueur] = JoueurAleatoire()
     elif (type_joueur == 2) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o')
-    elif (type_joueur == 3) : self.joueurs[joueur] = JoueurAleatoire()
+    elif (type_joueur == 3) : self.joueurs[joueur] = AlphaBeta()
     elif (type_joueur == 4) : self.joueurs[joueur] = JoueurAleatoire()
     else : self.joueurs[joueur] = JoueurAleatoire()
 
@@ -159,6 +160,7 @@ class Puissance4(tk.Tk):
     try:
       if self.grille.placer_jeton(self.joueur_symbole[self.joueur_courant], colonne) == True :        
         self.positions_gagnantes = self.grille.get_positions_gagnantes(colonne)
+        print(self.positions_gagnantes)
         self.draw_grid()
         return
       
@@ -168,7 +170,7 @@ class Puissance4(tk.Tk):
     
     self.changer_joueur()
     
-    self.after(30, self.jouer_coup)
+    self.after(1, self.jouer_coup)
     
 
 if __name__ == "__main__":
