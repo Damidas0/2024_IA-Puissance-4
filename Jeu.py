@@ -86,16 +86,11 @@ class Puissance4(tk.Tk):
           color_fill = 'red'
         elif (self.grille.get_case(ligne_i,colone_j) == 'o'):
           color_fill = 'blue'
+          
         color_outline = 'black'
-        
-        if (self.positions_gagnantes != [] ):
-          print("----------")
-          print([ligne_i,colone_j])
-          print(self.positions_gagnantes)
-          print([ligne_i,colone_j] in self.positions_gagnantes)
-        
         if (self.positions_gagnantes != [] and [ligne_i,colone_j] in self.positions_gagnantes):
           color_outline = 'green'
+          color_fill = 'green'
         
         x0 = colone_j * self.multiplicateur
         y0 = ligne_i * self.multiplicateur
@@ -164,7 +159,6 @@ class Puissance4(tk.Tk):
     try:
       if self.grille.placer_jeton(self.joueur_symbole[self.joueur_courant], colonne) == True :        
         self.positions_gagnantes = self.grille.get_positions_gagnantes(colonne)
-        print("positions_gagnantes :",self.positions_gagnantes)
         self.draw_grid()
         return
       
