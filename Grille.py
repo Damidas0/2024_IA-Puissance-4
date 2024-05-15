@@ -45,11 +45,9 @@ class Grille :
         self.coup_prec = [ligne_i, colonne]
         
         if self.est_gagnant(ligne_i, colonne):
-          print(joueur + ' a gagne')
           return True
 
         if self.est_plein():
-          print('Match nul')
           return True
         
         return False
@@ -145,10 +143,8 @@ class Grille :
 
 
   def get_positions_gagnantes_avec_ligne(self, ligne, colonne):
-    print(ligne, colonne)
     if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
-      raise ValueError('colonne ou ligne invalide')
-      return []
+        raise ValueError('Colonne ou ligne invalide')
     
     directions = [(0, 1), (1, 0), (1, 1), (1, -1)]  # Verticale, Horizontale, Diagonale descendante, Diagonale ascendante
     token = self.grille[ligne][colonne]
@@ -160,32 +156,38 @@ class Grille :
     for direction in directions:
         dx, dy = direction
         count = 1
-        for i in range(1, 4):  # Vérification dans les deux sens à partir de la position donnée
-            nx, ny = colonne + dx * i, ligne + dy * i
-            if 0 <= nx < self.largeur and 0 <= ny < self.hauteur and self.grille[ny][nx] == token:
-                positions_gagnantes.append([ny, nx])
+
+        # Recherche dans les deux sens à partir de la position donnée
+        for i in range(1, 4):  
+            nx1, ny1 = colonne + dx * i, ligne + dy * i
+            nx2, ny2 = colonne - dx * i, ligne - dy * i
+            
+            if (0 <= nx1 < self.largeur and 0 <= ny1 < self.hauteur and self.grille[ny1][nx1] == token) or \
+              (0 <= nx2 < self.largeur and 0 <= ny2 < self.hauteur and self.grille[ny2][nx2] == token):
+                if 0 <= nx1 < self.largeur and 0 <= ny1 < self.hauteur and self.grille[ny1][nx1] == token:
+                    positions_gagnantes.append([ny1, nx1])
+                if 0 <= nx2 < self.largeur and 0 <= ny2 < self.hauteur and self.grille[ny2][nx2] == token:
+                    positions_gagnantes.append([ny2, nx2])
                 count += 1
             else:
                 break
-        for i in range(1, 4):
-            nx, ny = colonne - dx * i, ligne - dy * i
-            if 0 <= nx < self.largeur and 0 <= ny < self.hauteur and self.grille[ny][nx] == token:
-                positions_gagnantes.append([ny, nx])
-                count += 1
-            else:
-                break
+        
         if count >= 4:
             return positions_gagnantes
+        
         positions_gagnantes = [[ligne, colonne]]  # Réinitialisation pour chaque direction
 
     return []
 
+  
+  
   def get_positions_gagnantes(self, colonne):
     ligne = self.hauteur - 1
     while ligne >= 0 and self.case_est_vide(ligne, colonne):
       ligne -= 1
       
-    print("calc : ",ligne, colonne)
+    #print("sol", self.get_positions_gagnantes_avec_ligne(ligne, colonne))
+
     return self.get_positions_gagnantes_avec_ligne(ligne, colonne)
     
   def get_liste_coups_possibles(self):
