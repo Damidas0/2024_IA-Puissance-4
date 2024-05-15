@@ -1,7 +1,7 @@
 import copy
 import random
 
-from Jeu import Grille
+from Grille import Grille
 
 #Minmax profondeur maximum
 PROFONDEUR_MAX = 4
