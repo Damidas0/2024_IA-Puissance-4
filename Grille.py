@@ -46,7 +46,6 @@ class Grille :
         
         if self.est_gagnant(ligne_i, colonne):
           print(joueur + ' a gagne')
-          print(self.get_positions_gagnantes_avec_ligne(ligne_i, colonne))
           return True
 
         if self.est_plein():
@@ -145,9 +144,7 @@ class Grille :
     return False
 
 
-  def get_positions_gagnantes_avec_ligne(self, ligne, colonne):
-    print(ligne, colonne)
-    
+  def get_positions_gagnantes_avec_ligne(self, ligne, colonne):    
     if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
       raise ValueError('colonne ou ligne invalide')
       return []
