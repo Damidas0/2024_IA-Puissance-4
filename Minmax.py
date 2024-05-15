@@ -15,7 +15,7 @@ class MinMax :
         self.advChar = 'o' if self.char == 'x' else 'x'
         self.profondeur_max = profondeux_max 
 
-    def jouer_coup(self, grille : Grille, char : str) -> int : 
+    def jouer_coup(self, grille : Grille, char : str, inutile_mais_necessaire) -> int : 
         coup = self.minmax(copy.deepcopy(grille), self.profondeur_max, True)
         return coup
 
@@ -23,12 +23,12 @@ class MinMax :
         liste_score=[]
         #Condition d'arrets  
         #Grille gagnante : 
-        if grille_virtuelle.est_gagnant() : 
+        if grille_virtuelle.est_gagnant(grille_virtuelle.get_coup_prec()[0], grille_virtuelle.get_coup_prec()[1]) : 
             return 100 * profondeur_max if(minimizer) else -100*profondeur_max
             
         #Profondeur maximale atteinte 
         if(profondeur_max == 0) : 
-            return self.evaluer_grille(grille_virtuelle)
+            return self.evaluer_grille(grille_virtuelle, minimizer)
         
         #Récursivité
         liste_coup = grille_virtuelle.get_liste_coups_possibles()
@@ -53,9 +53,9 @@ class MinMax :
         
         
     def evaluer_grille(self, grille:Grille, minimizer:bool) -> int : 
-        if (minimizer and grille.est_gagnant()) :
+        if (minimizer and grille.est_gagnant(grille.get_coup_prec()[0], grille.get_coup_prec()[1])) :
             return 100 
-        if (not minimizer and grille.est_gagnant()) :
+        if (not minimizer and grille.est_gagnant(grille.get_coup_prec()[0], grille.get_coup_prec()[1])) :
             return -100
         else:
             # les scores sont a modifier pour que ce soit pertinent 

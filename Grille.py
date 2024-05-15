@@ -1,5 +1,7 @@
 import copy
 
+#grille[ligne][colone]
+
 class Grille :
   def __init__(self, hauteur = 6, largeur = 7, grille = [], coup_prec=[0,0]):
     self.hauteur = hauteur
@@ -9,9 +11,11 @@ class Grille :
         self.grille = copy.deepcopy(grille)
     else :
         self.grille = [['' for i in range(self.largeur)] for j in range(self.hauteur)]
+      
+    print(self.grille)
     
       
-  def __deepcopy__(self) :
+  def __deepcopy__(self, memo) :
       return Grille(self.hauteur, self.largeur, self.grille, self.coup_prec) 
       
 
@@ -20,9 +24,9 @@ class Grille :
     
   def __str__(self):
     s = ''
-    for i in range(self.hauteur):
-      for j in range(self.largeur):
-        s += self.grille[i][j] + ' '
+    for ligne_i in range(self.hauteur):
+      for colone_j in range(self.largeur):
+        s += self.grille[ligne_i][colone_j] + ' '
       s += '\n'
     return s
   
@@ -37,9 +41,10 @@ class Grille :
       raise ValueError('colonne invalide')
       return False
     
-    for i in range(self.hauteur-1, -1, -1):
-      if self.case_est_vide(i, colonne):
-        self.grille[i][colonne] = joueur
+    for ligne_i in range(self.hauteur-1, -1, -1):
+      if self.case_est_vide(ligne_i, colonne):
+        self.grille[ligne_i][colonne] = joueur
+        self.coup_prec = [ligne_i, colonne]
         
         if self.est_gagnant(colonne, i):
           print(joueur + ' a gagne')
@@ -61,8 +66,12 @@ class Grille :
           return False
     return True
   
+  def get_coup_prec(self):
+    return self.coup_prec
+  
   def est_gagnant(self, colonne, ligne):
     if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
+      print(colonne, ligne)
       raise ValueError('colonne ou ligne invalide')
       return False
     
