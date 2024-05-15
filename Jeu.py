@@ -79,24 +79,31 @@ class Puissance4(tk.Tk):
 
 
   def draw_grid(self):
-    for i in range(6):
-      for j in range(7):
+    for ligne_i in range(6):
+      for colone_j in range(7):
         color_fill = 'white'
-        if (self.grille.get_case(i,j) == 'x'):
+        if (self.grille.get_case(ligne_i,colone_j) == 'x'):
           color_fill = 'red'
-        elif (self.grille.get_case(i,j) == 'o'):
+        elif (self.grille.get_case(ligne_i,colone_j) == 'o'):
           color_fill = 'blue'
         color_outline = 'black'
-        if (self.positions_gagnantes != [] and [i,j] in self.positions_gagnantes):
+        
+        if (self.positions_gagnantes != [] ):
+          print("----------")
+          print([ligne_i,colone_j])
+          print(self.positions_gagnantes)
+          print([ligne_i,colone_j] in self.positions_gagnantes)
+        
+        if (self.positions_gagnantes != [] and [ligne_i,colone_j] in self.positions_gagnantes):
           color_outline = 'green'
         
-        x0 = j * self.multiplicateur
-        y0 = i * self.multiplicateur
+        x0 = colone_j * self.multiplicateur
+        y0 = ligne_i * self.multiplicateur
         x1 = x0 + self.multiplicateur
         y1 = y0 + self.multiplicateur
         
         self.canvas.create_rectangle(x0, y0, x1, y1, fill=color_fill, outline=color_outline)
-        self.canvas.create_text(x0 + self.multiplicateur/2, y0 + self.multiplicateur/2, text=self.grille.get_case(i,j), font=('Arial', 20))
+        self.canvas.create_text(x0 + self.multiplicateur/2, y0 + self.multiplicateur/2, text=self.grille.get_case(ligne_i,colone_j), font=('Arial', 20))
 
   def jouer_coup_humain(self, event):
     if self.attente_coup_humain:
@@ -157,6 +164,7 @@ class Puissance4(tk.Tk):
     try:
       if self.grille.placer_jeton(self.joueur_symbole[self.joueur_courant], colonne) == True :        
         self.positions_gagnantes = self.grille.get_positions_gagnantes(colonne)
+        print("positions_gagnantes :",self.positions_gagnantes)
         self.draw_grid()
         return
       
@@ -166,7 +174,7 @@ class Puissance4(tk.Tk):
     
     self.changer_joueur()
     
-    self.after(100, self.jouer_coup)
+    self.after(30, self.jouer_coup)
     
 
 if __name__ == "__main__":
