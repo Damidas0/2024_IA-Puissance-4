@@ -72,17 +72,17 @@ class MinMax :
                         if (colonne_i < NB_COLONNES - 2) :
                             if (ligne_i > 2) :    
                                 #Verification de la diagonale bas droite
-                                if (grille.grille[ligne_i + 1][colonne_i- 1] == self.char):
-                                    if (grille.grille[ligne_i+2][colonne_i- 2] == self.char) : 
+                                if (grille.grille[ligne_i - 1][colonne_i+ 1] == self.char):
+                                    if (grille.grille[ligne_i-2][colonne_i+ 2] == self.char) : 
                                         if ((colonne_i < NB_COLONNES - 3) and (ligne_i < NB_LIGNES - 3)) :
-                                            if (grille.grille[ligne_i+3][colonne_i-3] == " ") : 
+                                            if (grille.grille[ligne_i-3][colonne_i+3] == '') : 
                                                 score = score + scorePourTrois
                                         elif ((colonne_i > 0) and (ligne_i < NB_LIGNES - 1)) :
-                                            if (grille.grille[ligne_i-1][colonne_i+1] == " ") : 
+                                            if (grille.grille[ligne_i+1][colonne_i-1] == '') : 
                                                 score = score + scorePourTrois
-                                    elif (grille.grille[ligne_i+2][colonne_i-2] == " ") : 
+                                    elif (grille.grille[ligne_i-2][colonne_i+2] == '') : 
                                         if ((colonne_i > 0) and (ligne_i < NB_LIGNES - 1)) :
-                                            if (grille.grille[ligne_i-1][colonne_i+1] == " ") : 
+                                            if (grille.grille[ligne_i+1][colonne_i-1] == '') : 
                                                 score = score + scorePourDeux
 
 
@@ -92,42 +92,42 @@ class MinMax :
                                 if (grille.grille[ligne_i + 1][colonne_i+ 1] == self.char):
                                     if (grille.grille[ligne_i+2][colonne_i+2] == self.char) : 
                                         if ((colonne_i < NB_COLONNES - 3) and (ligne_i < NB_LIGNES - 3)) :
-                                            if (grille.grille[ligne_i+3][colonne_i+3] == " ") : 
+                                            if (grille.grille[ligne_i+3][colonne_i+3] == '') : 
                                                 score = score + scorePourTrois
                                         elif ((colonne_i > 0) and (ligne_i > 0)) :
-                                            if (grille.grille[ligne_i-1][colonne_i-1] == " ") : 
+                                            if (grille.grille[ligne_i-1][colonne_i-1] == '') : 
                                                 score = score + scorePourTrois
-                                    elif (grille.grille[ligne_i+2][colonne_i+2] == " ") : 
+                                    elif (grille.grille[ligne_i+2][colonne_i+2] == '') : 
                                         if ((colonne_i > 0) and (ligne_i > 0)) :
-                                            if (grille.grille[ligne_i-1][colonne_i-1] == " ") : 
+                                            if (grille.grille[ligne_i-1][colonne_i-1] == '') : 
                                                 score = score + scorePourDeux
                             
                             #verification ligne
-                            if (grille.grille[ligne_i + 1][colonne_i] == self.char):
-                                    if (grille.grille[ligne_i+2][colonne_i] == self.char) : 
+                            if (grille.grille[ligne_i][colonne_i+1] == self.char):
+                                    if (grille.grille[ligne_i][colonne_i+2] == self.char) : 
                                         if (colonne_i < NB_COLONNES - 3) :
-                                            if (grille.grille[ligne_i+3][colonne_i] == " ") : 
+                                            if (grille.grille[ligne_i][colonne_i+3] == '') : 
                                                 score = score + scorePourTrois
                                         elif (colonne_i > 0) :
-                                            if (grille.grille[ligne_i-1][colonne_i] == " ") : 
+                                            if (grille.grille[ligne_i][colonne_i-1] == '') : 
                                                 score = score + scorePourTrois
-                                    elif (grille.grille[ligne_i+2][colonne_i] == " ") : 
+                                    elif (grille.grille[ligne_i][colonne_i+2] == '') : 
                                         if (colonne_i > 0) :
-                                            if (grille.grille[ligne_i-1][colonne_i] == " ") : 
+                                            if (grille.grille[ligne_i][colonne_i-1] == '') : 
                                                 if (colonne_i > 1) : 
-                                                    if (grille.grille[ligne_i-2][colonne_i] == " ") :
+                                                    if (grille.grille[ligne_i][colonne_i-2] == '') :
                                                         score = score + scorePourDeuxPiege
                                                 if (colonne_i < NB_COLONNES - 3) : 
-                                                    if (grille.grille[ligne_i+2][colonne_i] == " ") :
+                                                    if (grille.grille[ligne_i][colonne_i+2] == '') :
                                                         score = score + scorePourDeuxPiege
                                                 score = score + scorePourDeux
                         if (ligne_i < NB_LIGNES - 3) :
                             #verification colonne
-                            if (grille.grille[ligne_i][colonne_i+ 1] == self.char):
-                                if (grille.grille[ligne_i][colonne_i+2] == self.char) : 
-                                    if (grille.grille[ligne_i][colonne_i+3] == " ") : 
+                            if (grille.grille[ligne_i+ 1][colonne_i] == self.char):
+                                if (grille.grille[ligne_i+2][colonne_i] == self.char) : 
+                                    if (grille.grille[ligne_i+3][colonne_i] == '') : 
                                         score = score + scorePourTrois
-                                if (grille.grille[ligne_i][colonne_i+2] == self.char) :
+                                if (grille.grille[ligne_i+2][colonne_i] == self.char) :
                                     score = score + scorePourDeux
 
 
@@ -138,17 +138,17 @@ class MinMax :
                         if (colonne_i < NB_COLONNES - 2) :
                             if (ligne_i > 2) :    
                                 #Verification de la diagonale bas droite
-                                if (grille[ligne_i + 1][colonne_i- 1] == self.advChar):
-                                    if (grille[ligne_i+2][colonne_i- 2] == self.advChar) : 
+                                if (grille[ligne_i - 1][colonne_i + 1] == self.advChar):
+                                    if (grille[ligne_i-2][colonne_i+ 2] == self.advChar) : 
                                         if ((colonne_i < NB_COLONNES - 3) and (ligne_i < NB_LIGNES - 3)) :
-                                            if (grille[ligne_i+3][colonne_i-3] == " ") : 
+                                            if (grille[ligne_i-3][colonne_i+3] == '') : 
                                                 score = score - scorePourTrois
                                         elif ((colonne_i > 0) and (ligne_i < NB_LIGNES - 1)) :
-                                            if (grille[ligne_i-1][colonne_i+1] == " ") : 
+                                            if (grille[ligne_i+1][colonne_i-1] == '') : 
                                                 score = score - scorePourTrois
-                                    elif (grille[ligne_i+2][colonne_i-2] == " ") : 
+                                    elif (grille[ligne_i-2][colonne_i+2] == '') : 
                                         if ((colonne_i > 0) and (ligne_i < NB_LIGNES - 1)) :
-                                            if (grille[ligne_i-1][colonne_i+1] == " ") : 
+                                            if (grille[ligne_i+1][colonne_i-1] == '') : 
                                                 score = score - scorePourDeux
 
 
@@ -158,42 +158,42 @@ class MinMax :
                                 if (grille[ligne_i + 1][colonne_i+ 1] == self.advChar):
                                     if (grille[ligne_i+2][colonne_i+2] == self.advChar) : 
                                         if ((colonne_i < NB_COLONNES - 3) and (ligne_i < NB_LIGNES - 3)) :
-                                            if (grille[ligne_i+3][colonne_i+3] == " ") : 
+                                            if (grille[ligne_i+3][colonne_i+3] == '') : 
                                                 score = score - scorePourTrois
                                         elif ((colonne_i > 0) and (ligne_i > 0)) :
-                                            if (grille[ligne_i-1][colonne_i-1] == " ") : 
+                                            if (grille[ligne_i-1][colonne_i-1] == '') : 
                                                 score = score - scorePourTrois
-                                    elif (grille[ligne_i+2][colonne_i+2] == " ") : 
+                                    elif (grille[ligne_i+2][colonne_i+2] == '') : 
                                         if ((colonne_i > 0) and (ligne_i > 0)) :
-                                            if (grille[ligne_i-1][colonne_i-1] == " ") : 
+                                            if (grille[ligne_i-1][colonne_i-1] == '') : 
                                                 score = score - scorePourDeux
                             
                             #verification ligne
-                            if (grille[ligne_i + 1][colonne_i] == self.advChar):
-                                    if (grille[ligne_i+2][colonne_i] == self.advChar) : 
+                            if (grille[ligne_i][colonne_i+1] == self.advChar):
+                                    if (grille[ligne_i][colonne_i+2] == self.advChar) : 
                                         if (colonne_i < NB_COLONNES - 3) :
-                                            if (grille[ligne_i+3][colonne_i] == " ") : 
+                                            if (grille[ligne_i][colonne_i+3] == '') : 
                                                 score = score - scorePourTrois
                                         elif (colonne_i > 0) :
-                                            if (grille[ligne_i-1][colonne_i] == " ") : 
+                                            if (grille[ligne_i][colonne_i-1] == '') : 
                                                 score = score - scorePourTrois
-                                    elif (grille[ligne_i+2][colonne_i] == " ") : 
+                                    elif (grille[ligne_i][colonne_i+2] == '') : 
                                         if (colonne_i > 0) :
-                                            if (grille[ligne_i-1][colonne_i] == " ") : 
+                                            if (grille[ligne_i][colonne_i-1] == '') : 
                                                 if (colonne_i > 1) : 
-                                                    if (grille[ligne_i-2][colonne_i] == " ") :
+                                                    if (grille[ligne_i][colonne_i-2] == '') :
                                                         score = score - scorePourDeuxPiege
                                                 if (colonne_i < NB_COLONNES - 3) : 
-                                                    if (grille[ligne_i+2][colonne_i] == " ") :
+                                                    if (grille[ligne_i][colonne_i+2] == '') :
                                                         score = score - scorePourDeuxPiege
                                                 score = score - scorePourDeux
                         if (ligne_i < NB_LIGNES - 3) :
                             #verification colonne
-                            if (grille[ligne_i][colonne_i+ 1] == self.advChar):
-                                if (grille[ligne_i][colonne_i+2] == self.advChar) : 
-                                    if (grille[ligne_i][colonne_i+3] == " ") : 
+                            if (grille[ligne_i+1][colonne_i] == self.advChar):
+                                if (grille[ligne_i+2][colonne_i] == self.advChar) : 
+                                    if (grille[ligne_i+3][colonne_i] == '') : 
                                         score = score - scorePourTrois
-                                if (grille[ligne_i][colonne_i+2] == self.advChar) :
+                                if (grille[ligne_i+2][colonne_i] == self.advChar) :
                                     score = score - scorePourDeux
             return score
     #lister coup possible    
