@@ -159,10 +159,9 @@ class Puissance4(tk.Tk):
   
     try:
       if self.grille.placer_jeton(self.joueur_symbole[self.joueur_courant], colonne) == True :
-        print(self.joueur_symbole[self.joueur_courant] + ' a gagne')
+        print(self.joueur_symbole[self.joueur_courant] + ' a gagne, colonne ' + str(colonne))
         
         self.positions_gagnantes = self.grille.get_positions_gagnantes(colonne)
-        print(self.positions_gagnantes)
         self.draw_grid()
         return
       
@@ -172,7 +171,8 @@ class Puissance4(tk.Tk):
     
     self.changer_joueur()
     
-    self.after(1, self.jouer_coup)
+    #self.after(1, self.jouer_coup)
+    self.jouer_coup()
     
 
 if __name__ == "__main__":

@@ -66,7 +66,6 @@ class Grille :
   
   def est_gagnant(self, ligne, colonne):
     if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
-      print(colonne, ligne)
       raise ValueError('colonne ou ligne invalide')
       return False
     
@@ -143,51 +142,103 @@ class Grille :
 
 
   def get_positions_gagnantes_avec_ligne(self, ligne, colonne):
-    if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
-        raise ValueError('Colonne ou ligne invalide')
-    
-    directions = [(0, 1), (1, 0), (1, 1), (1, -1)]  # Verticale, Horizontale, Diagonale descendante, Diagonale ascendante
-    token = self.grille[ligne][colonne]
-    if not token:
-        return []
+    if colonne < 0 or colonne > self.largeur - 1 or ligne < 0 or ligne > self.hauteur - 1:
+        raise ValueError('colonne ou ligne invalide')
 
-    positions_gagnantes = [[ligne, colonne]]
+    joueur = self.grille[ligne][colonne]
+    positions_gagnantes = [[ligne, colonne]]  # Liste pour stocker les positions gagnantes
 
-    for direction in directions:
-        dx, dy = direction
-        count = 1
+    # Vérification verticale
+    consecutive = 1
+    for ligne_i in range(ligne - 1, -1, -1):
+        if self.grille[ligne_i][colonne] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ligne_i, colonne])
+        else:
+            break
+    for ligne_i in range(ligne + 1, self.hauteur):
+        if self.grille[ligne_i][colonne] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ligne_i, colonne])
+        else:
+            break
+    if consecutive >= 4:
+        return positions_gagnantes
 
-        # Recherche dans les deux sens à partir de la position donnée
-        for i in range(1, 4):  
-            nx1, ny1 = colonne + dx * i, ligne + dy * i
-            nx2, ny2 = colonne - dx * i, ligne - dy * i
-            
-            if (0 <= nx1 < self.largeur and 0 <= ny1 < self.hauteur and self.grille[ny1][nx1] == token) or \
-              (0 <= nx2 < self.largeur and 0 <= ny2 < self.hauteur and self.grille[ny2][nx2] == token):
-                if 0 <= nx1 < self.largeur and 0 <= ny1 < self.hauteur and self.grille[ny1][nx1] == token:
-                    positions_gagnantes.append([ny1, nx1])
-                if 0 <= nx2 < self.largeur and 0 <= ny2 < self.hauteur and self.grille[ny2][nx2] == token:
-                    positions_gagnantes.append([ny2, nx2])
-                count += 1
-            else:
-                break
-        
-        if count >= 4:
-            return positions_gagnantes
-        
-        positions_gagnantes = [[ligne, colonne]]  # Réinitialisation pour chaque direction
+    # Vérification horizontale
+    consecutive = 1
+    for colonne_j in range(colonne - 1, -1, -1):
+        if self.grille[ligne][colonne_j] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ligne, colonne_j])
+        else:
+            break
+    for colonne_j in range(colonne + 1, self.largeur):
+        if self.grille[ligne][colonne_j] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ligne, colonne_j])
+        else:
+            break
+    if consecutive >= 4:
+        return positions_gagnantes
 
+    # Vérification diagonale \
+    consecutive = 1
+    ligne_i, colonne_j = ligne - 1, colonne - 1
+    while ligne_i >= 0 and colonne_j >= 0:
+        if self.grille[ligne_i][colonne_j] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ligne_i, colonne_j])
+        else:
+            break
+        ligne_i -= 1
+        colonne_j -= 1
+    ligne_i, colonne_j = ligne + 1, colonne + 1
+    while ligne_i < self.hauteur and colonne_j < self.largeur:
+        if self.grille[ligne_i][colonne_j] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ ligne_i, colonne_j])
+        else:
+            break
+        ligne_i += 1
+        colonne_j += 1
+    if consecutive >= 4:
+        return positions_gagnantes
+
+    # Vérification diagonale /
+    consecutive = 1
+    ligne_i, colonne_j = ligne - 1, colonne + 1
+    while ligne_i >= 0 and colonne_j < self.largeur:
+        if self.grille[ligne_i][colonne_j] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ligne_i, colonne_j])
+        else:
+            break
+        ligne_i -= 1
+        colonne_j += 1
+    ligne_i, colonne_j = ligne + 1, colonne - 1
+    while ligne_i < self.hauteur and colonne_j >= 0:
+        if self.grille[ligne_i][colonne_j] == joueur:
+            consecutive += 1
+            positions_gagnantes.append([ligne_i, colonne_j])
+        else:
+            break
+        ligne_i += 1
+        colonne_j -= 1
+    if consecutive >= 4:
+        return positions_gagnantes
+
+    # Si aucune séquence gagnante n'est trouvée, retourne une liste vide
     return []
+
 
   
   
   def get_positions_gagnantes(self, colonne):
-    ligne = self.hauteur - 1
-    while ligne >= 0 and self.case_est_vide(ligne, colonne):
-      ligne -= 1
-      
-    #print("sol", self.get_positions_gagnantes_avec_ligne(ligne, colonne))
-
+    ligne = 0
+    
+    while ligne < self.hauteur-1 and self.case_est_vide(ligne, colonne):
+      ligne += 1
     return self.get_positions_gagnantes_avec_ligne(ligne, colonne)
     
   def get_liste_coups_possibles(self):
