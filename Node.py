@@ -2,31 +2,37 @@ import random
 import copy
 from math import sqrt, log
 
+from Grille import Grille
+from MCTS import C
+
 
 class Node:
-    def __init__(self, etat, parent, joue, mouvement):
+    def __init__(self, etat: Grille, parent:Node, joue:chr, mouvement:int):
         self.etat = copy.deepcopy(etat)
         self.mouvement = mouvement
-        self.joue = joue # booleen : a qui est le tour, True = c'est l'ordi qui joue
+        self.joue = joue 
         self.parent = parent
         self.enfants = []
         self.listeScore=[0,0,0]
         self.nb_visites = 1
         
-
+    '''
+    Parcours l'arbre jusqu'une feuille
+    '''
     def selection(self):
         if(self.enfants != []):
             poids = []
             for enfant in self.enfants:
-                poids.append(int (100*enfant.calculerValeurNoeud()))
-            #print(poids)
-            
+                poids.append(int (100*enfant.calcul_valeur_noeuds()))
+            #Choix aléatoire pondéré
             tmp = random.choices(self.enfants, weights=poids)
             return tmp[0].selection()
         else:
             return self
 
-
+    def calcul_valeur_noeuds(self) : 
+        
+        
     def extension (self) :
         if not (verif_gagnage(couleur.rouge, self.etat) or verif_gagnage(couleur.jaune, self.etat)) :
             coup_possible = liste_coup_possible(self.etat)

@@ -22,7 +22,7 @@ class Puissance4(tk.Tk):
     self.joueurs = [JoueurAleatoire(), JoueurAleatoire()]
     self.positions_gagnantes = []
 
-    self.attente_coup_humain = True
+    self.attente_coup_humain = False
     self.colonne_coup_humain = -1
     
     self.types_de_joueur = ["Humain", "Aleatoire", "MinMax", "AlphaBeta", "MCTS"]
