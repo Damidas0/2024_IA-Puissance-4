@@ -19,6 +19,7 @@ class Grille :
 
   def vider_grille(self):
     self.grille = [['' for i in range(self.largeur)] for j in range(self.hauteur)]
+    self.coup_prec = [0,0]
     
   def __str__(self):
     s = ''

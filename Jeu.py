@@ -138,12 +138,26 @@ class Puissance4(tk.Tk):
     
     self.draw_grid()
     
-    self.jouer_coup()
+    self.boucle_jeu()
 
 
   def changer_joueur(self):
     self.joueur_courant = (self.joueur_courant + 1) % 2
     self.menu.entryconfig(4, label="Tour du joueur : " + self.joueur_symbole[self.joueur_courant])
+
+
+  def boucle_jeu(self):
+    partie_en_cours = True
+    
+    while(partie_en_cours):
+      partie_en_cours = self.jouer_coup()
+      
+      self.update()
+      self.draw_grid()
+      
+      self.changer_joueur()
+
+    
 
   def jouer_coup(self):    
     if self.joueurs[self.joueur_courant].__class__.__name__ == 'JoueurHumain':
@@ -163,16 +177,13 @@ class Puissance4(tk.Tk):
         
         self.positions_gagnantes = self.grille.get_positions_gagnantes(colonne)
         self.draw_grid()
-        return
+        return False
       
       self.draw_grid()
     except ValueError as e:
       print(e)
     
-    self.changer_joueur()
-    
-    #self.after(1, self.jouer_coup)
-    self.jouer_coup()
+    return True
     
 
 if __name__ == "__main__":
