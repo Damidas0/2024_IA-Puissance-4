@@ -4,6 +4,7 @@ from Grille import Grille
 from Joueur import JoueurHumain, JoueurAleatoire
 from Minmax import MinMax
 from AlphaBeta import AlphaBeta
+from MCTS import MCTS
 
 VERBOSE = False
 
@@ -121,7 +122,7 @@ class Puissance4(tk.Tk):
     elif (type_joueur == 1) : self.joueurs[joueur] = JoueurAleatoire()
     elif (type_joueur == 2) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o')
     elif (type_joueur == 3) : self.joueurs[joueur] = AlphaBeta()
-    elif (type_joueur == 4) : self.joueurs[joueur] = JoueurAleatoire()
+    elif (type_joueur == 4) : self.joueurs[joueur] = MCTS(1.1, 'x' if joueur == 0 else 'o')
     else : self.joueurs[joueur] = JoueurAleatoire()
 
   def relancer_partie(self):

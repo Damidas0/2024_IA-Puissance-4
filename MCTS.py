@@ -1,26 +1,32 @@
 import random
 import copy
-import Node
 from math import sqrt, log
 from Grille import Grille
-from Node import Node
 
+from Noeud import Noeud, C
 
-C = 1.1
 
 
 class MCTS : 
-    def __init__(self, c_param:float, etat: Grille, iteration:int) -> None:
+    def __init__(self, c_param:float, char:str, iteration:int = 10000) -> None:
         C = c_param
-        self.racine = Node(etat, None, True, None)
+        self.racine = Noeud(Grille(), None, True, 0)
+        self.char = char
+        self.advChar = 'o' if self.char == 'x' else 'x'
+
         self.iteration = iteration
         
-    def joue_coup(self, grille : Grille, char : str, inutile_mais_necessaire) -> int :
-        for i in range(self.iteration) : 
-            self.racine.selection()
-            self.racine.extension()
-            self.racine.simulation()
-            self.racine
+    def jouer_coup(self, grille : Grille, char : str, inutile_mais_necessaire) -> int :
+        
+        self.racine = Noeud(grille, None, True, 0)
+        for _ in range(self.iteration) : 
+            tmp = self.racine.selection()
+            tmp.extension()        
+            #TODO VERIFIER Extension
+            tmp.propagation_resultat(tmp.simulation())
+        coup = self.racine.choisit_enfant()
+        print(coup)
+        return coup[0]
         
     
     
