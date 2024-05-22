@@ -25,7 +25,8 @@ class Grille :
     s = ''
     for ligne_i in range(self.hauteur):
       for colone_j in range(self.largeur):
-        s += self.grille[ligne_i][colone_j] + ' '
+        s += self.grille[ligne_i][colone_j] if self.grille[ligne_i][colone_j]!='' else ' ' 
+        s += '|'
       s += '\n'
     return s
   

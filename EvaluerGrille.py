@@ -1,6 +1,7 @@
 from Grille import Grille
 
-def evaluer_grille(grille:Grille, minimizer:bool, joueur_char, adv_char) -> int :
+
+def evaluer_grille_mais_vieux(grille:Grille, minimizer:bool, joueur_char, adv_char) -> int :
   NB_LIGNES = grille.hauteur
   NB_COLONNES = grille.largeur
 
@@ -148,3 +149,118 @@ def evaluer_grille(grille:Grille, minimizer:bool, joueur_char, adv_char) -> int 
                           if (grille.grille[ligne_i+2][colonne_i] == adv_char) :
                               score = score - scorePourDeux
       return score
+
+
+
+
+def evaluer_grille(grille:Grille, minimizer:bool, joueur_char, adv_char) -> int :
+  a = evaluer_grille_par_joueur(grille, minimizer, joueur_char, adv_char)
+  b = evaluer_grille_par_joueur(grille, minimizer, adv_char, joueur_char)
+  
+  # print("-------------------")
+  # print("nv:",a-b)
+  # print("vieux:",evaluer_grille_mais_vieux(grille, minimizer, joueur_char, adv_char))
+  
+  return a-b
+  
+
+def evaluer_grille_par_joueur(grille:Grille, minimizer:bool, joueur_char, joueur_advs_char) -> int :
+    NB_LIGNES = grille.hauteur
+    NB_COLONNES = grille.largeur
+
+
+    if (minimizer and grille.est_gagnant(grille.get_coup_prec()[0], grille.get_coup_prec()[1])) :
+      return 1000
+    if (not minimizer and grille.est_gagnant(grille.get_coup_prec()[0], grille.get_coup_prec()[1])) :
+      return -1000
+    
+    
+    # les scores sont a modifier pour que ce soit pertinent 
+    scorePourTrois = 5
+    scorePourDeux = 2
+    scorePourUn = 0.1
+
+
+    nb_jeton_par_groupe = [0,0,0] # 0: 1 jeton, 1: 2 jetons, 2: 3 jetons
+    
+    
+    #Vérification verticale |
+    for ligne_i in range (NB_LIGNES - 3) :
+      for colonne_j in range (NB_COLONNES) :
+          nb_jeton = 0
+          
+          for i in range(4):
+            if grille.grille[ligne_i + i][colonne_j] == joueur_advs_char:
+              nb_jeton = 0
+              break
+            
+            if grille.grille[ligne_i + i][colonne_j] == joueur_char:
+              nb_jeton += 1
+
+          if 0 < nb_jeton and nb_jeton < 4:
+            nb_jeton_par_groupe[nb_jeton - 1] += 1
+          
+    
+    
+    #Vérification horizontale -
+    for ligne_i in range (NB_LIGNES) :
+      for colonne_j in range (NB_COLONNES - 3) :
+          nb_jeton = 0
+          
+          for i in range(4):
+            if grille.grille[ligne_i][colonne_j + i] == joueur_advs_char:
+              nb_jeton = 0
+              break
+        
+            if grille.grille[ligne_i][colonne_j + i] == joueur_char:
+              nb_jeton += 1
+            
+          if 0 < nb_jeton and nb_jeton < 4:
+            nb_jeton_par_groupe[nb_jeton - 1] += 1
+    
+    #Vérification diagonale \
+    for ligne_i in range (NB_LIGNES - 3) :
+      for colonne_j in range (NB_COLONNES - 3) :
+          nb_jeton = 0
+          
+          for i in range(4):
+            if grille.grille[ligne_i + i][colonne_j + i] == joueur_advs_char:
+              nb_jeton = 0
+              break
+        
+            if grille.grille[ligne_i + i][colonne_j + i] == joueur_char:
+              nb_jeton += 1
+              
+          if 0 < nb_jeton and nb_jeton < 4:
+            nb_jeton_par_groupe[nb_jeton - 1] += 1
+
+          
+    #Vérification diagonale /
+    for ligne_i in range (3, NB_LIGNES) :
+      for colonne_j in range (NB_COLONNES - 3) :
+          nb_jeton = 0
+          
+          for i in range(4):
+            if grille.grille[ligne_i - i][colonne_j + i] == joueur_advs_char:
+              nb_jeton = 0
+              break
+        
+            if grille.grille[ligne_i - i][colonne_j + i] == joueur_char:
+              nb_jeton += 1
+              
+          if 0 < nb_jeton and nb_jeton < 4:
+            nb_jeton_par_groupe[nb_jeton - 1] += 1
+
+    
+    # print("--------------")
+    # print(nb_jeton_par_groupe)
+    # print(grille)
+          
+    return nb_jeton_par_groupe[2] * scorePourTrois + nb_jeton_par_groupe[1] * scorePourDeux + nb_jeton_par_groupe[0] * scorePourUn
+  
+  
+  
+# g = Grille(6,7)
+# g.placer_jeton('x', 0)
+# g.placer_jeton('x', 0)
+# evaluer_grille(g, True, 'x', 'o')
