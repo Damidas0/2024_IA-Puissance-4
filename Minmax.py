@@ -64,6 +64,8 @@ def max_avec_aleatoire(liste_score):
     for i in range(len(liste_score)):
         if liste_score[i][1] > max_score:
             max_score = liste_score[i][1]
+            coups_max = [liste_score[i][0]]
+        elif liste_score[i][1] == max_score:
             coups_max.append(liste_score[i][0])
     
     return random.choice(coups_max), max_score
@@ -75,6 +77,8 @@ def min_avec_aleatoire(liste_score):
     for i in range(len(liste_score)):
         if liste_score[i][1] < min_score:
             min_score = liste_score[i][1]
+            coups_min = [liste_score[i][0]]
+        elif liste_score[i][1] == min_score:
             coups_min.append(liste_score[i][0])
-    
+
     return random.choice(coups_min), min_score
