@@ -51,9 +51,30 @@ class MinMax :
         if ((minimizer)):
             #m = max(liste_score, key=lambda x:x[1], default=0)
             #print(m)
-            return max(liste_score, key=lambda x:x[1], default=0)
+            return max_avec_aleatoire(liste_score)
         else:
             #print (liste)
-            return min(liste_score, key=lambda x:x[1], default=0)
+            return min_avec_aleatoire(liste_score)
 
 
+def max_avec_aleatoire(liste_score):
+    max_score = float('-inf')
+    coups_max = []
+    
+    for i in range(len(liste_score)):
+        if liste_score[i][1] > max_score:
+            max_score = liste_score[i][1]
+            coups_max.append(liste_score[i][0])
+    
+    return random.choice(coups_max), max_score
+
+def min_avec_aleatoire(liste_score):
+    min_score = float('inf')
+    coups_min = []
+    
+    for i in range(len(liste_score)):
+        if liste_score[i][1] < min_score:
+            min_score = liste_score[i][1]
+            coups_min.append(liste_score[i][0])
+    
+    return random.choice(coups_min), min_score
