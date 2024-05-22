@@ -23,7 +23,7 @@ class MinMax :
         #Condition d'arrets  
         #Grille gagnante : 
         if grille_virtuelle.est_gagnant(grille_virtuelle.get_coup_prec()[0], grille_virtuelle.get_coup_prec()[1]) : 
-            #print(profondeur_max)
+            if profondeur_max>2 : print(str(profondeur_max) +"  -  " + str(grille_virtuelle.coup_prec[1]))
             return (grille_virtuelle.coup_prec[1], (100 * profondeur_max)) if(not minimizer) else (grille_virtuelle.coup_prec[1],(-100*profondeur_max))
             
         #Profondeur maximale atteinte 

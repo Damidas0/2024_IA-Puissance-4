@@ -65,7 +65,11 @@ class Grille :
   def get_coup_prec(self):
     return self.coup_prec
   
-  def est_gagnant(self, ligne, colonne):
+  def est_gagnant(self, ligne = None, colonne = None):
+    if ligne == None : 
+      ligne = self.coup_prec[0] 
+      colonne = self.coup_prec[1]
+      
     if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
       raise ValueError('colonne ou ligne invalide')
       return False

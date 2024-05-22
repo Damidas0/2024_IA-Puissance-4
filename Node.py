@@ -7,7 +7,7 @@ from MCTS import C
 
 
 class Node:
-    def __init__(self, etat: Grille, parent:Node, joue:chr, mouvement:int):
+    def __init__(self, etat: Grille, parent:Node, joue:bool, mouvement:int):
         self.etat = copy.deepcopy(etat)
         self.mouvement = mouvement
         self.joue = joue 
@@ -20,6 +20,7 @@ class Node:
     Parcours l'arbre jusqu'une feuille
     '''
     def selection(self):
+        #S'il y a enfants on en choisit un selon la formule 
         if(self.enfants != []):
             poids = []
             for enfant in self.enfants:
@@ -31,6 +32,19 @@ class Node:
             return self
 
     def calcul_valeur_noeuds(self) : 
+        if(self.joue==True):
+            nbVictoire=self.listeScore[0]
+        if(self.joue==False): 
+            nbVictoire=self.listeScore[2] #on souhaite qu'un noeud soit perdant pour l'adversaire   
+        valeurMoyenne=nbVictoire/self.nb_visites
+
+        #print(valeurMoyenne, "c'est la valeur moyenne")
+        #print(self.parent.nb_visites/self.nb_visites, "c'est cette merde")
+        #print(log(self.parent.nb_visites)/self.nb_visites, "pour voir")
+    
+        ret = valeurMoyenne + C*sqrt(log(self.parent.nb_visites)/self.nb_visites)
+        #print (ret, " Valeur qui est en dessous de 0 apparement")
+        return ret
         
         
     def extension (self) :
