@@ -80,6 +80,7 @@ class Puissance4(tk.Tk):
 
 
   def draw_grid(self):
+    self.canvas.delete("all")
     for ligne_i in range(6):
       for colone_j in range(7):
         color_fill = 'white'
