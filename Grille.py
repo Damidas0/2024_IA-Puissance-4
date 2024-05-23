@@ -25,7 +25,8 @@ class Grille :
     s = ''
     for ligne_i in range(self.hauteur):
       for colone_j in range(self.largeur):
-        s += self.grille[ligne_i][colone_j] + ' '
+        s += self.grille[ligne_i][colone_j] if self.grille[ligne_i][colone_j]!='' else ' ' 
+        s += '|'
       s += '\n'
     return s
   
@@ -82,6 +83,9 @@ class Grille :
       
     if colonne < 0 or colonne > self.largeur-1 or ligne < 0 or ligne > self.hauteur-1:
       raise ValueError('colonne ou ligne invalide')
+      return False
+  
+    if self.case_est_vide(ligne, colonne):
       return False
     
     joueur = self.grille[ligne][colonne]

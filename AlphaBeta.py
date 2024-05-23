@@ -1,4 +1,5 @@
 import copy
+import random
 
 from EvaluerGrille import evaluer_grille
 
@@ -19,6 +20,8 @@ class AlphaBeta:
             if score > meilleur_score:
                 meilleur_score = score
                 meilleur_coup = coup
+            elif score == meilleur_score:
+                meilleur_coup = meilleur_coup if random.randint(0,1) == 0 else coup
 
         return meilleur_coup
 
