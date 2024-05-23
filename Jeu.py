@@ -74,6 +74,13 @@ class Puissance4(tk.Tk):
     
     
     self.menu.add_command(label="Relancer Partie", command=self.relancer_partie)
+    
+    self.lancer_n_parties_menu = tk.Menu(self.menu, tearoff=0)
+    self.lancer_n_parties_menu.add_command(label="Lancer 10 Partie", command=lambda: self.lancer_n_parties(10))
+    self.lancer_n_parties_menu.add_command(label="Lancer 25 Partie", command=lambda: self.lancer_n_parties(25))
+    self.lancer_n_parties_menu.add_command(label="Lancer 100 Partie", command=lambda: self.lancer_n_parties(100))
+    self.menu.add_cascade(label="lancer n parties :", menu=self.lancer_n_parties_menu)
+
 
     self.menu.add_command(label="Tour du joueur : " + self.joueur_symbole[self.joueur_courant])
 
@@ -129,7 +136,27 @@ class Puissance4(tk.Tk):
     elif (type_joueur == 5) : self.joueurs[joueur] = MCTS(1.1, 'x' if joueur == 0 else 'o')
     else : self.joueurs[joueur] = JoueurAleatoire()
 
-  def relancer_partie(self):
+
+  def lancer_n_parties(self, n=10):
+    print("Lancer", n, "parties ...")
+    
+    nb_victoires = [0,0]
+    
+    for i in range(n):
+      nb_victoires[self.relancer_partie(False)] += 1
+      print (i, "/", n)
+      self.draw_grid()
+      self.update()
+      
+    print("Victoires X :", nb_victoires[0])
+    print("             ", nb_victoires[0]/n * 100, "%")
+    print("Victoires O :", nb_victoires[1])
+    print("             ", nb_victoires[1]/n * 100, "%")
+    print("Match Nul :  ", n - nb_victoires[0] - nb_victoires[1])
+    print("             ", (n - nb_victoires[0] - nb_victoires[1])/n * 100, "%")
+
+
+  def relancer_partie(self, UI=True):
     if VERBOSE:
       print("Relancer Partie")
     
@@ -141,26 +168,31 @@ class Puissance4(tk.Tk):
     
     self.attente_coup_humain = self.type_joueur_x == "Humain"
     
-    self.draw_grid()
+    if UI:
+      self.draw_grid()
     
-    self.boucle_jeu()
+    return self.boucle_jeu(UI)
 
 
   def changer_joueur(self):
     self.joueur_courant = (self.joueur_courant + 1) % 2
-    self.menu.entryconfig(4, label="Tour du joueur : " + self.joueur_symbole[self.joueur_courant])
+    self.menu.entryconfig(5, label="Tour du joueur : " + self.joueur_symbole[self.joueur_courant])
 
 
-  def boucle_jeu(self):
+  def boucle_jeu(self, UI=True):
     partie_en_cours = True
     
     while(partie_en_cours):
       partie_en_cours = self.jouer_coup()
       
-      self.update()
-      self.draw_grid()
+      if UI:
+        self.update()
+        self.draw_grid()
       
       self.changer_joueur()
+    
+    self.changer_joueur()  
+    return self.joueur_courant
 
     
 
