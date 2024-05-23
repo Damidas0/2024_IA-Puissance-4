@@ -26,7 +26,7 @@ class Puissance4(tk.Tk):
     self.attente_coup_humain = False
     self.colonne_coup_humain = -1
     
-    self.types_de_joueur = ["Humain", "Aleatoire", "MinMax", "AlphaBeta", "MCTS"]
+    self.types_de_joueur = ["Humain", "Aleatoire", "MinMax 1", "MinMax 2", "AlphaBeta", "MCTS"]
     
     
     # Fenetre
@@ -58,11 +58,13 @@ class Puissance4(tk.Tk):
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 0))
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[3], command=lambda: self.changer_type_joueur(3, 0))
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(4, 0))
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(5, 0))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[0], command=lambda: self.changer_type_joueur(0, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[1], command=lambda: self.changer_type_joueur(1, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[3], command=lambda: self.changer_type_joueur(3, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(4, 1))
+    self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[5], command=lambda: self.changer_type_joueur(5, 1))
           
     
     joueur_par_defaut = 1
@@ -121,9 +123,10 @@ class Puissance4(tk.Tk):
       
     if (type_joueur == 0) : self.joueurs[joueur] = JoueurHumain()
     elif (type_joueur == 1) : self.joueurs[joueur] = JoueurAleatoire()
-    elif (type_joueur == 2) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o')
-    elif (type_joueur == 3) : self.joueurs[joueur] = AlphaBeta()
-    elif (type_joueur == 4) : self.joueurs[joueur] = MCTS(1.1, 'x' if joueur == 0 else 'o')
+    elif (type_joueur == 2) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', fonction_eval=1)
+    elif (type_joueur == 3) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', fonction_eval=2)
+    elif (type_joueur == 4) : self.joueurs[joueur] = AlphaBeta()
+    elif (type_joueur == 5) : self.joueurs[joueur] = MCTS(1.1, 'x' if joueur == 0 else 'o')
     else : self.joueurs[joueur] = JoueurAleatoire()
 
   def relancer_partie(self):
