@@ -1,6 +1,7 @@
 import tkinter as tk
 
-from Grille import Grille
+#from Grille import Grille
+from Grille_opti import Grille
 from Joueur import JoueurHumain, JoueurAleatoire
 from Minmax import MinMax
 from AlphaBeta import AlphaBeta

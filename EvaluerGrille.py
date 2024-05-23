@@ -1,5 +1,5 @@
 from Grille import Grille
-
+from numba import njit
 
 def evaluer_grille_mais_vieux(grille:Grille, minimizer:bool, joueur_char, adv_char) -> int :
   NB_LIGNES = grille.hauteur
@@ -153,7 +153,7 @@ def evaluer_grille_mais_vieux(grille:Grille, minimizer:bool, joueur_char, adv_ch
 
 
 
-def evaluer_grille(grille:Grille, minimizer:bool, joueur_char, adv_char) -> int :
+def evaluer_grille_(grille:Grille, minimizer:bool, joueur_char, adv_char) -> int :
   a = evaluer_grille_par_joueur(grille, minimizer, joueur_char, adv_char)
   b = evaluer_grille_par_joueur(grille, minimizer, adv_char, joueur_char)
   
@@ -257,10 +257,8 @@ def evaluer_grille_par_joueur(grille:Grille, minimizer:bool, joueur_char, joueur
     # print(grille)
           
     return nb_jeton_par_groupe[2] * scorePourTrois + nb_jeton_par_groupe[1] * scorePourDeux + nb_jeton_par_groupe[0] * scorePourUn
-  
-  
-  
-# g = Grille(6,7)
-# g.placer_jeton('x', 0)
-# g.placer_jeton('x', 0)
-# evaluer_grille(g, True, 'x', 'o')
+
+
+
+def evaluer_grille(grille:Grille, minimizer:bool, joueur_char, adv_char):
+    return grille.evaluer(minimizer, joueur_char, adv_char)
