@@ -63,7 +63,7 @@ class MinMax :
 
 def max_avec_aleatoire(liste_score):
     max_score = float('-inf')
-    coups_max = []
+    coups_max = [0]
     
     for i in range(len(liste_score)):
         if liste_score[i][1] > max_score:
@@ -76,7 +76,7 @@ def max_avec_aleatoire(liste_score):
 
 def min_avec_aleatoire(liste_score):
     min_score = float('inf')
-    coups_min = []
+    coups_min = [0]
     
     for i in range(len(liste_score)):
         if liste_score[i][1] < min_score:
