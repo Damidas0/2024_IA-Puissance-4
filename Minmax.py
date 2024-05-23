@@ -4,11 +4,11 @@ import random
 from Grille import Grille
 from EvaluerGrille import evaluer_grille
 
-#Minmax profondeur maximum
+#Minmax profondeur maximumget_coup_prec
 PROFONDEUR_MAX = 4
 
 class MinMax : 
-    def __init__(self, char:str, profondeux_max:int = 5) -> None:
+    def __init__(self, char:str, profondeux_max:int = 3) -> None:
         self.char = char
         self.advChar = 'o' if self.char == 'x' else 'x'
         self.profondeur_max = profondeux_max 

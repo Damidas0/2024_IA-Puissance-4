@@ -29,10 +29,19 @@ class Grille :
       s += '\n'
     return s
   
+  def est_pleine(self) : 
+    for i in range (self.largeur): 
+      if self.get_case(0, i) == '' : 
+        return False 
+    return True
+
+  
   def case_est_vide(self, ligne, colonne):
     return self.grille[ligne][colonne] == ''
   
-  def get_case(self, ligne, colonne):
+  def get_case(self, ligne=None, colonne=None):
+    if ligne == None :
+      return self.grille[self.get_coup_prec()[0]][self.get_coup_prec()[1]]
     return self.grille[ligne][colonne]
 
   def placer_jeton(self, joueur, colonne):
@@ -52,6 +61,7 @@ class Grille :
           return True
         
         return False
+      
     raise ValueError('colonne pleine')
     return False
 

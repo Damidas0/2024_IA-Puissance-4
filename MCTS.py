@@ -8,7 +8,7 @@ from Noeud import Noeud, C
 
 
 class MCTS : 
-    def __init__(self, c_param:float, char:str, iteration:int = 10000) -> None:
+    def __init__(self, c_param:float, char:str, iteration:int = 100000) -> None:
         C = c_param
         self.racine = Noeud(Grille(), None, True, 0)
         self.char = char

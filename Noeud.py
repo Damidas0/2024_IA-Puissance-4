@@ -10,13 +10,13 @@ C = 1.1
 
 class Noeud:
     def __init__(self, etat: Grille, parent, joue:bool, mouvement:int):
-        self.etat = copy.deepcopy(etat)
+        self.etat = etat
         self.mouvement = mouvement
         self.joue = joue 
         self.parent = parent
         self.enfants = []
         #Format [victoire, defaite + égalité]
-        self.listeScore=[0,0]
+        self.listeScore=[0,0,0]
         self.nb_visites = 1
         
     '''
@@ -53,7 +53,7 @@ class Noeud:
             
             for coup in coup_possible:
                 grille_tampon = copy.deepcopy(self.etat)
-                grille_tampon.placer_jeton('o' if grille_tampon.get_coup_prec()=='x' else 'x', coup)
+                grille_tampon.placer_jeton('o' if grille_tampon.get_case()=='x' else 'x', coup)
                 noeud_tampon = Noeud(grille_tampon, self, not(self.joue), coup)
                 self.enfants.append(noeud_tampon)
                 
@@ -70,23 +70,26 @@ class Noeud:
 
     def simulation (self):
         tmp = copy.deepcopy(self.etat)
-        if (tmp.get_coup_prec()=='x' and self.joue) : joueur = 'o'
+        if (tmp.get_case()=='x' and self.joue) : joueur = 'o'
         else : joueur = 'x'
         
-        while not(tmp.est_gagnant()) : 
+        while not(tmp.est_pleine() or tmp.est_gagnant()) : 
             liste_coup = tmp.get_liste_coups_possibles()
             if (len(liste_coup)>0) : 
                 coup = liste_coup[random.randint(0, len(liste_coup)-1)]
                 
             #jouer coup 
-            tmp.placer_jeton(('o' if tmp.get_coup_prec()=='x' else 'x'), coup)
+            tmp.placer_jeton(('o' if tmp.get_case()=='x' else 'x'), coup)
                        
             
         if tmp.est_gagnant() : 
-            if self.joue and tmp.get_coup_prec() == joueur : 
+            if self.joue and tmp.get_case() == joueur : 
+                #print('aaaaaaa')
+
                 #Victoire 
                 return 0 
             else : return 1 
+        return 2
             
                 
     def propagation_resultat(self, resultat) : 
@@ -97,9 +100,13 @@ class Noeud:
             tmp = tmp.parent
             tmp.listeScore[resultat] += 1
             tmp.nb_visites += 1
-            
+    
+    def calcul_score_noeud(self) : 
+        print(self.listeScore[0])
+        return self.listeScore[0]/self.nb_visites    
+        
     def choisit_enfant(self) : 
-        liste_scores = [(e.mouvement, (e.calcul_valeur_noeud())) for e in self.enfants]
+        liste_scores = [(e.mouvement, (e.calcul_score_noeud())) for e in self.enfants]
         [print(ls) for ls in liste_scores]
         return max(liste_scores, key=lambda x:x[1], default=(0, 0))
         
