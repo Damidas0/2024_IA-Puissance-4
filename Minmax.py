@@ -8,11 +8,7 @@ from EvaluerGrille import *
 PROFONDEUR_MAX = 4
 
 class MinMax : 
-<<<<<<< HEAD
-    def __init__(self, char:str, profondeux_max:int = 3) -> None:
-=======
-    def __init__(self, char:str, profondeux_max:int = 5, fonction_eval = 1) -> None:
->>>>>>> 90082bcd6cef2de10335d282c345d1b4994ae336
+    def __init__(self, char:str, profondeux_max:int = 3, fonction_eval = 1) -> None:
         self.char = char
         self.advChar = 'o' if self.char == 'x' else 'x'
         self.profondeur_max = profondeux_max 
