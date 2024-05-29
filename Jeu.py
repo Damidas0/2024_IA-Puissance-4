@@ -58,7 +58,7 @@ class Puissance4(tk.Tk):
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 0))
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[3], command=lambda: self.changer_type_joueur(3, 0))
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(4, 0))
-    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(5, 0))
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[5], command=lambda: self.changer_type_joueur(5, 0))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[0], command=lambda: self.changer_type_joueur(0, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[1], command=lambda: self.changer_type_joueur(1, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 1))

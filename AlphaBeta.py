@@ -5,11 +5,11 @@ from EvaluerGrille import evaluer_grille
 
 
 class AlphaBeta:
-    def __init__(self, profondeur=6):
+    def __init__(self, profondeur=3):
         self.profondeur = profondeur
 
     def jouer_coup(self, grille, joueur, inutile_mais_necessaire):
-        meilleur_coup = None
+        meilleur_coup = []
         meilleur_score = float('-inf')
 
         for coup in grille.get_liste_coups_possibles():
@@ -19,11 +19,11 @@ class AlphaBeta:
             
             if score > meilleur_score:
                 meilleur_score = score
-                meilleur_coup = coup
+                meilleur_coups = [coup]
             elif score == meilleur_score:
-                meilleur_coup = meilleur_coup if random.randint(0,1) == 0 else coup
+                meilleur_coups.append(coup)
 
-        return meilleur_coup
+        return random.choice(meilleur_coups)
 
     def alpha_beta(self, grille, profondeur, alpha, beta, joueur, est_maximisant):
         if profondeur == 0 or grille.est_gagnant(grille.get_coup_prec()[0], grille.get_coup_prec()[1]) or grille.est_plein():
