@@ -36,8 +36,6 @@ class AlphaBeta :
         
         #Récursivité
         liste_coup = grille_virtuelle.get_liste_coups_possibles()
-        alpha_p = float('-inf')
-        beta_p = float('inf')
         
         if (minimizer):
             valeur_max = (0, float('-inf'))
@@ -45,12 +43,12 @@ class AlphaBeta :
                 grille_tampon=copy.deepcopy(grille_virtuelle)
                 grille_tampon.placer_jeton(self.char, coup)
                 
-                score = self.alpha_beta(grille_tampon, profondeur_max-1, max(alpha, alpha_p), beta, not(minimizer), fonction_eval)[1]
+                score = self.alpha_beta(grille_tampon, profondeur_max-1, alpha, beta, not(minimizer), fonction_eval)[1]
                 liste_score.append((coup, score))
                 
                 valeur_max = max_avec_aleatoire(liste_score)
-                alpha_p = max(alpha_p, valeur_max[1])
-                if alpha_p >= beta:
+                alpha = max(alpha, valeur_max[1])
+                if alpha >= beta:
                     break 
         
             return valeur_max
@@ -61,12 +59,12 @@ class AlphaBeta :
                 grille_tampon=copy.deepcopy(grille_virtuelle)
                 grille_tampon.placer_jeton(self.advChar, coup)
                 
-                score = self.alpha_beta(grille_tampon, profondeur_max-1, alpha, min(beta, beta_p), not(minimizer), fonction_eval)[1]
+                score = self.alpha_beta(grille_tampon, profondeur_max-1, alpha, beta, not(minimizer), fonction_eval)[1]
                 liste_score.append((coup, score))
                 
                 valeur_min = min_avec_aleatoire(liste_score)
-                beta_p = min(beta_p, valeur_min[1])
-                if alpha >= beta_p:
+                beta = min(beta, valeur_min[1])
+                if alpha >= beta:
                     break 
         
             return valeur_min
