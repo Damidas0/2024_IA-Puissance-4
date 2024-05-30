@@ -39,6 +39,8 @@ class AlphaBeta :
         
         if (minimizer):
             valeur_max = (0, float('-inf'))
+            liste_score = []
+            
             for coup in liste_coup: 
                 grille_tampon=copy.deepcopy(grille_virtuelle)
                 grille_tampon.placer_jeton(self.char, coup)
@@ -47,15 +49,18 @@ class AlphaBeta :
                 
                 if score > valeur_max[1]:
                     valeur_max = (coup, score)
+                    liste_score.append((coup, score))
                     
                 alpha = max(alpha, valeur_max[1])
                 if alpha >= beta:
                     break 
         
-            return valeur_max
+            return max_avec_aleatoire(liste_score)
         
         else:
             valeur_min = (0, float('inf'))
+            liste_score = []
+            
             for coup in liste_coup: 
                 grille_tampon=copy.deepcopy(grille_virtuelle)
                 grille_tampon.placer_jeton(self.advChar, coup)
@@ -64,9 +69,10 @@ class AlphaBeta :
                 
                 if score < valeur_min[1]:
                     valeur_min = (coup, score)
+                    liste_score.append((coup, score))
                 
                 beta = min(beta, valeur_min[1])
                 if alpha >= beta:
                     break 
         
-            return valeur_min
+            return min_avec_aleatoire(liste_score)
