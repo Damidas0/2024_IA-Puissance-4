@@ -44,9 +44,10 @@ class AlphaBeta :
                 grille_tampon.placer_jeton(self.char, coup)
                 
                 score = self.alpha_beta(grille_tampon, profondeur_max-1, alpha, beta, not(minimizer), fonction_eval)[1]
-                liste_score.append((coup, score))
                 
-                valeur_max = max_avec_aleatoire(liste_score)
+                if score > valeur_max[1]:
+                    valeur_max = (coup, score)
+                    
                 alpha = max(alpha, valeur_max[1])
                 if alpha >= beta:
                     break 
@@ -60,9 +61,10 @@ class AlphaBeta :
                 grille_tampon.placer_jeton(self.advChar, coup)
                 
                 score = self.alpha_beta(grille_tampon, profondeur_max-1, alpha, beta, not(minimizer), fonction_eval)[1]
-                liste_score.append((coup, score))
                 
-                valeur_min = min_avec_aleatoire(liste_score)
+                if score < valeur_min[1]:
+                    valeur_min = (coup, score)
+                
                 beta = min(beta, valeur_min[1])
                 if alpha >= beta:
                     break 
