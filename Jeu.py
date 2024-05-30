@@ -146,11 +146,7 @@ class Puissance4(tk.Tk):
     
     for i in range(n):
       nb_victoires[self.relancer_partie(True)] += 1
-<<<<<<< HEAD
-      print (i, "/", n)
-=======
       print (i+1, "/", n)
->>>>>>> accf03fa60a1e35236634d5ad66c17d5a34fcc2c
       self.draw_grid()
       self.update()
       
