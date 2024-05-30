@@ -7,6 +7,8 @@ from AlphaBeta import AlphaBeta
 from MCTS import MCTS
 
 VERBOSE = False
+PROFONDEUR_MINMAX = 4
+PROFONDEUR_ALPHABETA = 6
 
 
 class Puissance4(tk.Tk):
@@ -130,9 +132,9 @@ class Puissance4(tk.Tk):
       
     if (type_joueur == 0) : self.joueurs[joueur] = JoueurHumain()
     elif (type_joueur == 1) : self.joueurs[joueur] = JoueurAleatoire()
-    elif (type_joueur == 2) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', fonction_eval=1)
-    elif (type_joueur == 3) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', fonction_eval=2)
-    elif (type_joueur == 4) : self.joueurs[joueur] = AlphaBeta()
+    elif (type_joueur == 2) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', PROFONDEUR_MINMAX, fonction_eval=1)
+    elif (type_joueur == 3) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', PROFONDEUR_MINMAX, fonction_eval=2)
+    elif (type_joueur == 4) : self.joueurs[joueur] = AlphaBeta('x' if joueur == 0 else 'o', PROFONDEUR_ALPHABETA, fonction_eval=2)
     elif (type_joueur == 5) : self.joueurs[joueur] = MCTS(1.1, 'x' if joueur == 0 else 'o')
     else : self.joueurs[joueur] = JoueurAleatoire()
 
@@ -143,8 +145,8 @@ class Puissance4(tk.Tk):
     nb_victoires = [0,0]
     
     for i in range(n):
-      nb_victoires[self.relancer_partie(False)] += 1
-      print (i, "/", n)
+      nb_victoires[self.relancer_partie(True)] += 1
+      print (i+1, "/", n)
       self.draw_grid()
       self.update()
       
