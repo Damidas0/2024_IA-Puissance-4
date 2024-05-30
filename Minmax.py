@@ -8,11 +8,7 @@ from EvaluerGrille import *
 PROFONDEUR_MAX = 4
 
 class MinMax : 
-<<<<<<< HEAD
-    def __init__(self, char:str, profondeux_max:int = 3) -> None:
-=======
-    def __init__(self, char:str, profondeux_max:int = 5, fonction_eval = 1) -> None:
->>>>>>> 90082bcd6cef2de10335d282c345d1b4994ae336
+    def __init__(self, char:str, profondeux_max:int = 4, fonction_eval = 1) -> None:
         self.char = char
         self.advChar = 'o' if self.char == 'x' else 'x'
         self.profondeur_max = profondeux_max 
@@ -29,7 +25,7 @@ class MinMax :
         #Grille gagnante : 
         if grille_virtuelle.est_gagnant(grille_virtuelle.get_coup_prec()[0], grille_virtuelle.get_coup_prec()[1]) : 
             #if profondeur_max>2 : print(str(profondeur_max) +"  -  " + str(grille_virtuelle.coup_prec[1]))
-            return (grille_virtuelle.coup_prec[1], (100 * profondeur_max)) if(not minimizer) else (grille_virtuelle.coup_prec[1],(-100*profondeur_max))
+            return (grille_virtuelle.coup_prec[1], (100 * profondeur_max+1)) if(not minimizer) else (grille_virtuelle.coup_prec[1],(-100*profondeur_max+1))
             
         #Profondeur maximale atteinte 
         if(profondeur_max == 0) : 

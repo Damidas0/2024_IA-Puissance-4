@@ -17,15 +17,19 @@ class MCTS :
         self.iteration = iteration
         
     def jouer_coup(self, grille : Grille, char : str, inutile_mais_necessaire) -> int :
-        
+        #if (self.racine.enfants !=[]) : 
+        #    for enfant in self.racine.enfants : 
+        #        for e in enfant.enfants : 
+        #            if e.etat.coup_prec == grille.coup_prec : 
+        #                del self.racine
+        #                self.racine = e
+        #else : 
         self.racine = Noeud(grille, None, True, 0)
         for _ in range(self.iteration) : 
             tmp = self.racine.selection()
-            tmp.extension()        
-            #TODO VERIFIER Extension
+            tmp.extension()
             tmp.propagation_resultat(tmp.simulation())
         coup = self.racine.choisit_enfant()
-        print(coup)
         return coup[0]
         
     

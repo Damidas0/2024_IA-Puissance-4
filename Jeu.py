@@ -58,7 +58,7 @@ class Puissance4(tk.Tk):
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 0))
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[3], command=lambda: self.changer_type_joueur(3, 0))
     self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(4, 0))
-    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[4], command=lambda: self.changer_type_joueur(5, 0))
+    self.type_joueur_x_menu.add_command(label="Joueur "+self.types_de_joueur[5], command=lambda: self.changer_type_joueur(5, 0))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[0], command=lambda: self.changer_type_joueur(0, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[1], command=lambda: self.changer_type_joueur(1, 1))
     self.type_joueur_o_menu.add_command(label="Joueur "+self.types_de_joueur[2], command=lambda: self.changer_type_joueur(2, 1))
@@ -133,7 +133,7 @@ class Puissance4(tk.Tk):
     elif (type_joueur == 2) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', fonction_eval=1)
     elif (type_joueur == 3) : self.joueurs[joueur] = MinMax( 'x' if joueur == 0 else 'o', fonction_eval=2)
     elif (type_joueur == 4) : self.joueurs[joueur] = AlphaBeta()
-    elif (type_joueur == 5) : self.joueurs[joueur] = MCTS(1.1, 'x' if joueur == 0 else 'o')
+    elif (type_joueur == 5) : self.joueurs[joueur] = MCTS(1.4, 'x' if joueur == 0 else 'o')
     else : self.joueurs[joueur] = JoueurAleatoire()
 
 
@@ -143,7 +143,7 @@ class Puissance4(tk.Tk):
     nb_victoires = [0,0]
     
     for i in range(n):
-      nb_victoires[self.relancer_partie(False)] += 1
+      nb_victoires[self.relancer_partie(True)] += 1
       print (i, "/", n)
       self.draw_grid()
       self.update()

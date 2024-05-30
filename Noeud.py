@@ -25,21 +25,23 @@ class Noeud:
     def selection(self):
         #S'il y a enfants on en choisit un selon la formule 
         if(self.enfants != []):
-            poids = []
-            for enfant in self.enfants:
-                poids.append(int (100*enfant.calcul_valeur_noeud()))
-            #Choix aléatoire pondéré
-            tmp = random.choices(self.enfants, weights=poids)
-            return tmp[0].selection()
+            poids = [enfant.calcul_valeur_noeud() for enfant in self.enfants]
+            
+            # Trouver l'index de l'enfant avec le poids maximal
+            index_max = poids.index(max(poids))
+            #choix max
+            #tmp = random.choices(self.enfants, weights=poids)
+            return self.enfants[index_max].selection()
         else:
             return self
 
     def calcul_valeur_noeud(self) : 
-        if(self.joue==True):
+        if(not self.joue):
             nbVictoire=self.listeScore[0]
-        if(self.joue==False): 
+        else : 
             nbVictoire=self.listeScore[1] #on souhaite qu'un noeud soit perdant pour l'adversaire   
         valeurMoyenne=nbVictoire/self.nb_visites
+        #TODO : regarder si que win.
 
     
         ret = valeurMoyenne + C*sqrt(log(self.parent.nb_visites)/self.nb_visites)
@@ -83,7 +85,7 @@ class Noeud:
                        
             
         if tmp.est_gagnant() : 
-            if self.joue and tmp.get_case() == joueur : 
+            if (not self.joue) : 
                 #print('aaaaaaa')
 
                 #Victoire 
@@ -102,14 +104,20 @@ class Noeud:
             tmp.nb_visites += 1
     
     def calcul_score_noeud(self) : 
-        print(self.listeScore[0])
+        #print(self.listeScore[0])
         return self.listeScore[0]/self.nb_visites    
         
     def choisit_enfant(self) : 
         liste_scores = [(e.mouvement, (e.calcul_score_noeud())) for e in self.enfants]
-        [print(ls) for ls in liste_scores]
+        for e in self.enfants:
+            print("Visites  : " + str(e.nb_visites) + " - Vicroite, défait, églité : " + str(e.listeScore))
+        print("-------------------------------------")
         return max(liste_scores, key=lambda x:x[1], default=(0, 0))
-        
+    
+    def devient_racine(self) : 
+        del self.parent
+        self.parent = None
+
 
 
 
